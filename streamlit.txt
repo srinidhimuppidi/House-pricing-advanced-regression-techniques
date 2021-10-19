@@ -1,0 +1,77 @@
+                                                      STREAMLIT BASICS
+
+
+- It is the fastest way to build and share data applications.
+
+- StreamLit Installation:
+   Step1: Install streamlit.
+   Step2: Type the following command in the command prompt.
+            pip install streamlit
+   Once Streamlit is installed successfully, run the given python code and
+   if you do not get an error, then streamlit is successfully installed and you can now work with streamlit.
+
+- Command to run StreamLit file:
+   streamlit run filename.py
+
+- Streamlit has two easy ways to display information into your app, 
+  which should typically be the first thing you try: st.write and magic.
+
+- Text Elements: 
+  Streamlit apps usually start with a call to st.title to set the app's title. 
+  After that, there are 2 heading levels you can use: st.header and st.subheader.
+  Pure text is entered with st.text, and Markdown with st.markdown.
+  There is also a command, st.write, which accepts multiple arguments,and multiple data types.You can also use magic commands in place of st.write.
+   
+- Data display elements:
+  You can display data via charts, and you can display it in raw form. 
+  These are the Streamlit commands you can use to display raw data.
+   st.dataframe,st.table,st.metric,st.json.
+
+- Chart elements:
+  Streamlit supports several different charting libraries, and our goal is to continually add support for more.
+  The most basic library in our arsenal is Matplotlib. 
+  Then there are also interactive charting libraries like Vega Lite (2D charts) and deck.gl (maps and 3D charts).
+  And finally we also provide a few chart types that are "native" to Streamlit, like st.line_chart and st.area_chart.
+
+- Input widgets:
+   With widgets, Streamlit allows you to bake interactivity directly into your apps with buttons, sliders, text inputs, and more. 
+   st.button
+   st.download_button
+   st.checkbox
+   st.radio
+   st.selectbox
+   st.multiselect
+   st.slider
+   st.select_slider
+   st.text_input
+   st.number_input
+   st.text_area
+   st.date_input
+   st.time_input
+   st.file_uploader
+   st.color_picker
+-Media elements:
+    It's easy to embed images, videos, and audio files directly into your Streamlit apps.
+    st.image
+    st.audio
+    st.video
+- Layouts and containers:
+  st.sidebar
+  st.columns
+  st.expander
+  st.container
+  st.empty
+- Status elements:
+  st.progress
+  st.spinner
+  st.balloons
+  st.error
+  st.warning
+  st.info
+  st.success
+  st.exception
+- Control Flow:
+  commands:
+   st.stop,st.form,st.form_submit_button
+
+
