@@ -1,0 +1,42 @@
+
+                                                   FLASK BASICS
+
+
+ - Dependencies:
+   Dependencies are all of the software components required by your project in order for it to work as intended and avoid runtime errors. 
+
+ - Virtual environments:
+    These are independent groups of python libraries.
+
+ - Flask Installation:
+   Step 1: Install Virtual Environment. Install virtualenv on Linux.
+   Step 2: Create an Environment. Create an Environment in Linux and MacOS. ...
+   Step 3: Activate the Environment. Activate the Environment on Linux and MacOS. ...
+   Step 4: Install Flask.
+   Step 5: Test the Development Environment.
+
+ - HTML Escaping:
+   flask. escape (s) → markup. Convert the characters &, <, >, ', and ” in string s to HTML-safe sequences. 
+
+ - Routing:
+    It is a Python decorator that Flask provides to assign URLs in our app to functions easily. It's easy to unde
+ 
+ - Static Files:
+    Used for flask documentation.
+
+ - Rendering Templates:
+   It is always about producing content.
+
+ - Accessing Request Data:
+   To access the incoming data in Flask, you have to use the request object.
+
+ - Redirects and Errors:
+    Flask class has a redirect() function. When called, it returns a response
+    object and redirects the user to another target location with specified status code.
+ 
+ - Sessions:
+   Flask-Session is an extension for Flask that support Server-side Session to your application.
+   The Session is the time between the client logs in to the server and logs out of the server. 
+
+ - Deploying to a Web Server:
+   Using a python software.
