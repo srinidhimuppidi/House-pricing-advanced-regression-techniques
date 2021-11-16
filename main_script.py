@@ -3,6 +3,15 @@ from sklearn import datasets
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Ridge
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.feature_selection import RFE
 from sklearn.cluster import KMeans
 from sklearn import metrics
 st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -90,7 +99,7 @@ if outlier == "Yes":
             plt.show()
             st.pyplot()
 
-# 09-11-2-21
+# 09-11-2021
 
 #1
 categorical_features=[feature for feature in dataset.columns if data[feature].dtypes=='O']
@@ -115,7 +124,7 @@ if miss == "Yes":
         st.write("{}: {}% missing values".format(feature,np.round(dataset[feature].isnull().mean(),4)))
 
 #3
-corr = st.selectbox("Doy you want to correct the missing values?",(" ","Yes","No"))
+corr = st.selectbox("Do you want to correct the missing values?",(" ","Yes","No"))
 def replace_cat_feature(dataset,features_nan):
     data=dataset.copy()
     data[features_nan]=data[features_nan].fillna('Missing')
@@ -165,6 +174,74 @@ if log == "Yes":
         labels_ordered={k:i for i,k in enumerate(labels_ordered,0)}
         dataset[feature]=dataset[feature].map(labels_ordered)
     st.write(dataset.head())
+
+# 16-11-2021
+
+#1 Standardization and Normalization of data
+st.markdown("### Data Transformation")
+stand = st.selectbox("Select the data transformation technique to be implemented",("Select","Standardization","Normalization"))
+scaling_feature=[feature for feature in dataset.columns if feature not in ['Id','SalePerice'] ]
+if stand == "Standardization":
+    scaler=MinMaxScaler()
+    scaler.fit(dataset[scaling_feature])
+    scaler.transform(dataset[scaling_feature])
+    data = pd.concat([dataset[['Id', 'SalePrice']].reset_index(drop=True),
+                        pd.DataFrame(scaler.transform(dataset[scaling_feature]), columns=scaling_feature)],
+                        axis=1)
+
+if stand == "Normalization":
+    scaler=StandardScaler()
+    scaler.fit(dataset[scaling_feature])
+    scaler.transform(dataset[scaling_feature])
+    data = pd.concat([dataset[['Id', 'SalePrice']].reset_index(drop=True),
+                        pd.DataFrame(scaler.transform(dataset[scaling_feature]), columns=scaling_feature)],
+                        axis=1)
+
+#2 Splitting the data
+split = st.selectbox("Split the data",("Select","Yes","No"))
+if split == "Yes":
+    # Splitting the data
+    x = data.drop("SalePrice",axis = 1)
+    y = data["SalePrice"]
+    y.columns = ["Delete","SalePrice"]
+    y.drop(["Delete"],axis = 1,inplace = True)
+    x_train,x_test,y_train,y_test = train_test_split(x,y,random_state = 30,test_size = 0.33)
+    st.write("x_train shape",x_train.shape)
+    st.write("x_test shape",x_test.shape)
+    st.write("y_train shape",y_train.shape)
+    st.write("y_test shape",y_test.shape)
+
+#3 Linear Regression
+
+st.markdown("### Model Building")
+mod = st.selectbox("Select the machine learning model to train on",("Select","Linear Regression","Lasso Regression","K Nearest Neighbours",
+                                                                    "Random Forest"))
+if mod == "Linear Regression":
+    lm = LinearRegression()
+    lm.fit(x_train, y_train)
+    predictions = lm.predict(x_test)
+    plt.scatter(y_test,predictions)
+    sns.distplot((y_test-predictions),bins = 50)
+    st.pyplot()
+
+#4 Lasso
+if mod == "Lasso Regression":
+    ridge = Ridge(alpha=.3)
+    ridge.fit(x_train,y_train)
+    st.write("Ridge Regression Model Training Score: ",ridge.score(x_train, y_train))
+    y_pred = ridge.predict(x_test)
+
+#5 K Nearest
+if mod == "K Nearest Neighbours":
+    knn_model = KNeighborsRegressor(n_neighbors=3)
+    knn_model.fit(x_train, y_train)
+    train_preds = knn_model.predict(x_test)
+
+#6 Random Forest
+if mod == "Random Forest":
+    rf = RandomForestRegressor(n_estimators = 1000, random_state = 42)
+    rf.fit(x_train,y_train)
+    predictions = rf.predict(x_train)
 
 
 
