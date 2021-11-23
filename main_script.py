@@ -14,6 +14,8 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.feature_selection import RFE
 from sklearn.cluster import KMeans
 from sklearn import metrics
+from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import mean_squared_error
 st.set_option('deprecation.showPyplotGlobalUse', False)
 import base64
 
@@ -217,34 +219,41 @@ st.markdown("### Model Building")
 mod = st.selectbox("Select the machine learning model to train on",("Select","Linear Regression","Lasso Regression","K Nearest Neighbours",
                                                                     "Random Forest"))
 if mod == "Linear Regression":
-    lm = LinearRegression()
-    lm.fit(x_train, y_train)
-    predictions = lm.predict(x_test)
-    plt.scatter(y_test,predictions)
-    sns.distplot((y_test-predictions),bins = 50)
+    model = LinearRegression()
+    model.fit(x_train, y_train)
+    train_preds = model.predict(x_test)
+    plt.scatter(y_test,train_preds)
+    sns.distplot((y_test-train_preds),bins = 50)
     st.pyplot()
 
 #4 Lasso
 if mod == "Lasso Regression":
-    ridge = Ridge(alpha=.3)
-    ridge.fit(x_train,y_train)
-    st.write("Ridge Regression Model Training Score: ",ridge.score(x_train, y_train))
-    y_pred = ridge.predict(x_test)
+    model = Ridge(alpha=.3)
+    model.fit(x_train,y_train)
+    st.write("Ridge Regression Model Training Score: ",model.score(x_train, y_train))
+    train_preds = model.predict(x_test)
 
 #5 K Nearest
 if mod == "K Nearest Neighbours":
-    knn_model = KNeighborsRegressor(n_neighbors=3)
-    knn_model.fit(x_train, y_train)
-    train_preds = knn_model.predict(x_test)
+    model = KNeighborsRegressor(n_neighbors=3)
+    model.fit(x_train, y_train)
+    train_preds = model.predict(x_test)
 
 #6 Random Forest
 if mod == "Random Forest":
-    rf = RandomForestRegressor(n_estimators = 1000, random_state = 42)
-    rf.fit(x_train,y_train)
-    predictions = rf.predict(x_train)
+    model = RandomForestRegressor(n_estimators = 1000, random_state = 42)
+    model.fit(x_train,y_train)
+    train_preds = model.predict(x_train)
 
 
+with st.expander("Evaluation Metrics"):
+    metrics = st.multiselect("Select the metrics",["Mean squared error","Mean absolute error",
+                                                   "Root mean squared error","Logarithmic mean squared error"])
 
+    st.write("The parameters are",mean_absolute_error(y_test, train_preds))
+    st.write("The parameters are",mean_squared_error(y_test, train_preds))
+    st.write("The parameters are",np.sqrt(mean_squared_error(y_test, train_preds)))
+    st.write("The parameters are",np.log(np.sqrt(mean_squared_error(y_test, train_preds))))
 
 
 
